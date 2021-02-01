@@ -1,28 +1,62 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div class="main">
+        <h1>じゃんけんゲーム</h1>
+        <div class="router">
+          <router-link
+            to="/game"
+            class="router"
+            active-class="link">
+          ゲーム
+          </router-link>
+          <router-link
+            to="/score"
+            class="router"
+            active-class="link">
+          スコアー
+          </router-link>
+        </div>
+        <router-view></router-view>
+    </div>
 </template>
-
+ 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+    export default {
+        data () {
+            return {
+                // scores: storage.getData('scores') || []
+            };
+        },
+        watch: {
+            scores : 'saveData'
+        },
+        methods: {
+            // saveData() {
+            //     storage.setData('scores', this.scores);
+            // }
+        }
+    };
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+ul {
+    list-style: none;
+    padding-left: 0;
 }
+.main {
+    margin: 0 auto;
+    text-align: center;
+}
+.router {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & .router {
+        margin: 15px;
+    }
+    // active
+    & .link {
+        font-weight: bold;
+        font-size: 22px;
+    }
+}
+
 </style>
