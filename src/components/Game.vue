@@ -21,7 +21,7 @@
         <button
         class="button"
         :disabled="impossible"
-        @click="onSelected(clickObject)"
+        @click="onClicked(clickObject)"
         :class="{ selected: clickObject.isClicked }">
         {{ clickObject.key }}
         </button>
@@ -67,39 +67,45 @@ export default {
   created() {
     this.randomImg();
   },
+  watch: {
+    result: function() {
+      // scoresにpush
+      this.scores.push(this.result);
+    }
+  },
   methods: {
-    // 画像のランダム表示
+    // button選択時
+    onClicked(clickObject) {
+      // buttonにdisable付与
+      this.changeDisabled();
+      // ランダム画像ストップ
+      clearInterval(this.random);
+      // 勝利判定
+      this.decision(clickObject);
+      // buttonにisClicked付与
+      clickObject.isClicked = !clickObject.isClicked;
+    },
+    // リセット
+    riset() {
+      this.result = "";
+      // 画像表示
+      this.randomImg();
+      // disabled除去
+      this.changeDisabled();
+      // isClicked除去
+      this.clickObjectArray.forEach(function(value) {
+        value.isClicked = false;
+      });
+    },
+    // 画像ランダム表示
     randomImg() {
       this.random = setInterval(() => {
         let randomIndex = Math.floor(Math.random() * this.imgList.length);
         this.img = this.imgList[randomIndex];
       }, 1000 / 12);
     },
-    // button選択時
-    onSelected(clickObject) {
-      // 全てのbuttonにdisable(編集不可)付与処理
-      this.impossible = true;
-      // ランダム画像のストップ
-      clearInterval(this.random);
-      // buttonのselected付与
-      clickObject.isClicked = !clickObject.isClicked;
-      // 勝利判定
-      this.decision(clickObject);
-      // scoresにpush
-      this.scores.push(this.result);
-    },
-    // リセット
-    riset() {
-      // 画像表示
-      this.randomImg();
-      // disabled除去
+    changeDisabled() {
       this.impossible = !this.impossible;
-      // isClicked除去
-      this.clickObjectArray.forEach(function(value) {
-        value.isClicked = false;
-      });
-      // resultをからに
-      this.result = "";
     },
     // じゃんけんの判定
     decision(clickObject) {
