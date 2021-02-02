@@ -33,6 +33,9 @@
 
 <script>
 export default {
+  props: {
+    scores: Array,
+  },
   data() {
     return {
       img: '',
@@ -82,6 +85,8 @@ export default {
       clickObject.isClicked = !clickObject.isClicked;
       // 勝利判定
       this.decision(clickObject);
+      // scoresにpush
+      this.scores.push(this.result);
     },
     // リセット
     riset() {
@@ -92,7 +97,9 @@ export default {
       // isClicked除去
       this.clickObjectArray.forEach(function(value) {
         value.isClicked = false;
-      })
+      });
+      // resultをからに
+      this.result = "";
     },
     // じゃんけんの判定
     decision(clickObject) {

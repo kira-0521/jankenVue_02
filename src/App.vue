@@ -15,7 +15,7 @@
           スコアー
           </router-link>
         </div>
-        <router-view></router-view>
+        <router-view :scores="scores" v-on:riset-scores="scores = []"></router-view>
     </div>
 </template>
  
@@ -23,21 +23,14 @@
     export default {
         data () {
             return {
-                // scores: storage.getData('scores') || []
+                scores: [],
             };
         },
-        watch: {
-            scores : 'saveData'
-        },
-        methods: {
-            // saveData() {
-            //     storage.setData('scores', this.scores);
-            // }
-        }
     };
 </script>
 <style lang="scss">
-ul {
+ul,
+ol {
     list-style: none;
     padding-left: 0;
 }
